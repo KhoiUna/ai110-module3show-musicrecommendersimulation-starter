@@ -1,6 +1,7 @@
 from typing import List, Dict, Tuple, Optional
 from dataclasses import dataclass
 
+
 @dataclass
 class Song:
     """
@@ -18,6 +19,7 @@ class Song:
     danceability: float
     acousticness: float
 
+
 @dataclass
 class UserProfile:
     """
@@ -29,11 +31,13 @@ class UserProfile:
     target_energy: float
     likes_acoustic: bool
 
+
 class Recommender:
     """
     OOP implementation of the recommendation logic.
     Required by tests/test_recommender.py
     """
+
     def __init__(self, songs: List[Song]):
         self.songs = songs
 
@@ -45,6 +49,7 @@ class Recommender:
         # TODO: Implement explanation logic
         return "Explanation placeholder"
 
+
 def load_songs(csv_path: str) -> List[Dict]:
     """
     Loads songs from a CSV file.
@@ -54,6 +59,7 @@ def load_songs(csv_path: str) -> List[Dict]:
     print(f"Loading songs from {csv_path}...")
     return []
 
+
 def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
     """
     Scores a single song against user preferences.
@@ -62,6 +68,7 @@ def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
     # TODO: Implement scoring logic using your Algorithm Recipe from Phase 2.
     # Expected return format: (score, reasons)
     return []
+
 
 def recommend_songs(user_prefs: Dict, songs: List[Dict], k: int = 5) -> List[Tuple[Dict, float, str]]:
     """
