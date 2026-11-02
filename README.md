@@ -169,6 +169,146 @@ Loaded 15 songs.
   --------------------------------------------------------------
 ```
 
+Multiple profiles:
+
+```
+Loading songs from data/songs.csv...
+Loaded 15 songs.
+
+=== High-Energy Pop ===
+================================================================
+  🎵  MUSIC RECOMMENDER
+================================================================
+  Genre: pop  |  Mood: happy  |  Energy: 0.85  |  Acoustic: no
+================================================================
+
+  Top 5 recommendations
+
+  1. Sunrise City  —  Neon Echo
+     Score: 5.35 / 5.5  ███████████████████░
+     Why:
+       • mood match: happy (+2.00)
+       • genre match: pop (+1.00)
+       • energy 0.82 vs target 0.85 (+1.94)
+       • non-acoustic fit: acousticness 0.18 (+0.41)
+  --------------------------------------------------------------
+  2. Rooftop Lights  —  Indigo Parade
+     Score: 4.15 / 5.5  ███████████████░░░░░
+     Why:
+       • mood match: happy (+2.00)
+       • energy 0.76 vs target 0.85 (+1.82)
+       • non-acoustic fit: acousticness 0.35 (+0.33)
+  --------------------------------------------------------------
+  3. Gym Hero  —  Max Pulse
+     Score: 3.31 / 5.5  ████████████░░░░░░░░
+     Why:
+       • genre match: pop (+1.00)
+       • energy 0.93 vs target 0.85 (+1.84)
+       • non-acoustic fit: acousticness 0.05 (+0.47)
+  --------------------------------------------------------------
+  4. Storm Runner  —  Voltline
+     Score: 2.33 / 5.5  ████████░░░░░░░░░░░░
+     Why:
+       • energy 0.91 vs target 0.85 (+1.88)
+       • non-acoustic fit: acousticness 0.10 (+0.45)
+  --------------------------------------------------------------
+  5. Crown Talk  —  Verse Kingdom
+     Score: 2.30 / 5.5  ████████░░░░░░░░░░░░
+     Why:
+       • energy 0.78 vs target 0.85 (+1.86)
+       • non-acoustic fit: acousticness 0.12 (+0.44)
+  --------------------------------------------------------------
+
+=== Chill Lofi ===
+================================================================
+  🎵  MUSIC RECOMMENDER
+================================================================
+  Genre: lofi  |  Mood: chill  |  Energy: 0.40  |  Acoustic: yes
+================================================================
+
+  Top 5 recommendations
+
+  1. Library Rain  —  Paper Lanterns
+     Score: 5.33 / 5.5  ███████████████████░
+     Why:
+       • mood match: chill (+2.00)
+       • genre match: lofi (+1.00)
+       • energy 0.35 vs target 0.40 (+1.90)
+       • acoustic fit: acousticness 0.86 (+0.43)
+  --------------------------------------------------------------
+  2. Midnight Coding  —  LoRoom
+     Score: 5.31 / 5.5  ███████████████████░
+     Why:
+       • mood match: chill (+2.00)
+       • genre match: lofi (+1.00)
+       • energy 0.42 vs target 0.40 (+1.96)
+       • acoustic fit: acousticness 0.71 (+0.35)
+  --------------------------------------------------------------
+  3. Spacewalk Thoughts  —  Orbit Bloom
+     Score: 4.22 / 5.5  ███████████████░░░░░
+     Why:
+       • mood match: chill (+2.00)
+       • energy 0.28 vs target 0.40 (+1.76)
+       • acoustic fit: acousticness 0.92 (+0.46)
+  --------------------------------------------------------------
+  4. Focus Flow  —  LoRoom
+     Score: 3.39 / 5.5  ████████████░░░░░░░░
+     Why:
+       • genre match: lofi (+1.00)
+       • energy 0.40 vs target 0.40 (+2.00)
+       • acoustic fit: acousticness 0.78 (+0.39)
+  --------------------------------------------------------------
+  5. Coffee Shop Stories  —  Slow Stereo
+     Score: 2.38 / 5.5  █████████░░░░░░░░░░░
+     Why:
+       • energy 0.37 vs target 0.40 (+1.94)
+       • acoustic fit: acousticness 0.89 (+0.45)
+  --------------------------------------------------------------
+
+=== Deep Intense Rock ===
+================================================================
+  🎵  MUSIC RECOMMENDER
+================================================================
+  Genre: rock  |  Mood: intense  |  Energy: 0.92  |  Acoustic: no
+================================================================
+
+  Top 5 recommendations
+
+  1. Storm Runner  —  Voltline
+     Score: 5.43 / 5.5  ████████████████████
+     Why:
+       • mood match: intense (+2.00)
+       • genre match: rock (+1.00)
+       • energy 0.91 vs target 0.92 (+1.98)
+       • non-acoustic fit: acousticness 0.10 (+0.45)
+  --------------------------------------------------------------
+  2. Gym Hero  —  Max Pulse
+     Score: 4.46 / 5.5  ████████████████░░░░
+     Why:
+       • mood match: intense (+2.00)
+       • energy 0.93 vs target 0.92 (+1.98)
+       • non-acoustic fit: acousticness 0.05 (+0.47)
+  --------------------------------------------------------------
+  3. Neon Horizon  —  Pulse Theory
+     Score: 2.41 / 5.5  █████████░░░░░░░░░░░
+     Why:
+       • energy 0.96 vs target 0.92 (+1.92)
+       • non-acoustic fit: acousticness 0.03 (+0.48)
+  --------------------------------------------------------------
+  4. Iron Verdict  —  Black Anvil
+     Score: 2.37 / 5.5  █████████░░░░░░░░░░░
+     Why:
+       • energy 0.98 vs target 0.92 (+1.88)
+       • non-acoustic fit: acousticness 0.02 (+0.49)
+  --------------------------------------------------------------
+  5. Sunrise City  —  Neon Echo
+     Score: 2.21 / 5.5  ████████░░░░░░░░░░░░
+     Why:
+       • energy 0.82 vs target 0.92 (+1.80)
+       • non-acoustic fit: acousticness 0.18 (+0.41)
+  --------------------------------------------------------------
+```
+
 **Screenshot or video** _(optional)_: <!-- Insert a screenshot or demo video link here -->
 
 ---
