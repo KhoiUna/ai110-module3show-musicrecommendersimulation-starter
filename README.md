@@ -120,12 +120,53 @@ You can add more tests in `tests/test_recommender.py`.
 Paste a sample of your recommender's output here as a text block so a reader can see what it produces:
 
 ```
-# e.g.:
-# User profile: genre=indie, mood=chill, energy=low
-# Recommendations:
-#   1. ...
-#   2. ...
-#   3. ...
+Loading songs from data/songs.csv...
+Loaded 15 songs.
+
+================================================================
+  🎵  MUSIC RECOMMENDER
+================================================================
+  Genre: lofi  |  Mood: chill  |  Energy: 0.40  |  Acoustic: yes
+================================================================
+
+  Top 5 recommendations
+
+  1. Library Rain  —  Paper Lanterns
+     Score: 5.33 / 5.5  ███████████████████░
+     Why:
+       • mood match: chill (+2.00)
+       • genre match: lofi (+1.00)
+       • energy 0.35 vs target 0.40 (+1.90)
+       • acoustic fit: acousticness 0.86 (+0.43)
+  --------------------------------------------------------------
+  2. Midnight Coding  —  LoRoom
+     Score: 5.31 / 5.5  ███████████████████░
+     Why:
+       • mood match: chill (+2.00)
+       • genre match: lofi (+1.00)
+       • energy 0.42 vs target 0.40 (+1.96)
+       • acoustic fit: acousticness 0.71 (+0.35)
+  --------------------------------------------------------------
+  3. Spacewalk Thoughts  —  Orbit Bloom
+     Score: 4.22 / 5.5  ███████████████░░░░░
+     Why:
+       • mood match: chill (+2.00)
+       • energy 0.28 vs target 0.40 (+1.76)
+       • acoustic fit: acousticness 0.92 (+0.46)
+  --------------------------------------------------------------
+  4. Focus Flow  —  LoRoom
+     Score: 3.39 / 5.5  ████████████░░░░░░░░
+     Why:
+       • genre match: lofi (+1.00)
+       • energy 0.40 vs target 0.40 (+2.00)
+       • acoustic fit: acousticness 0.78 (+0.39)
+  --------------------------------------------------------------
+  5. Coffee Shop Stories  —  Slow Stereo
+     Score: 2.38 / 5.5  █████████░░░░░░░░░░░
+     Why:
+       • energy 0.37 vs target 0.40 (+1.94)
+       • acoustic fit: acousticness 0.89 (+0.45)
+  --------------------------------------------------------------
 ```
 
 **Screenshot or video** _(optional)_: <!-- Insert a screenshot or demo video link here -->
