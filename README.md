@@ -34,6 +34,48 @@ Real platforms like Spotify and YouTube combine **collaborative filtering** (wha
 - `target_energy` (0–1)
 - `likes_acoustic` (True/False)
 
+### Data Flow
+
+```
+INPUT                      PROCESS (the loop)                         OUTPUT (the ranking)
+─────                      ──────────────────                         ────────────────────
+user_prefs  ──┐            for each song in songs:                    sort by score (high → low)
+              ├──────────►     score, reasons = score_song(prefs, song)  ──►  keep top k
+songs.csv ────┘                collect (song, score, reasons)              print title, score, "Because: ..."
+(load_songs)
+```
+
+1. **Input:** `load_songs()` reads `data/songs.csv` into a list of dicts and converts the numeric columns to floats. `main.py` supplies the user's taste profile.
+2. **Process:** `recommend_songs()` loops over **every** song and calls `score_song()` on each one. `score_song()` judges a single song in isolation and returns its score along with a list of reasons, one for each rule that added points.
+3. **Output:** The scored songs are sorted from highest to lowest score and cut to the top `k`. Each recommendation is printed with its score and the reasons behind it.
+
+### Algorithm Recipe (finalized)
+
+| Signal           | Points         | Rule                                                                      |
+| ---------------- | -------------- | ------------------------------------------------------------------------- |
+| Mood match       | **+2.0**       | `song.mood == favorite_mood`                                              |
+| Genre match      | **+1.0**       | `song.genre == favorite_genre`                                            |
+| Energy closeness | **0.0 to 2.0** | `2.0 × (1 − abs(song.energy − target_energy))`                            |
+| Acoustic fit     | **0.0 to 0.5** | `0.5 × acousticness` if `likes_acoustic`, else `0.5 × (1 − acousticness)` |
+
+The maximum possible score is about **5.5**.
+
+**Why these weights?**
+
+- **Mood counts double compared to genre.** In this catalog, genre labels are nearly unique: 14 genres across 15 songs. A large genre bonus ends up picking a single song instead of describing a taste. Mood groups songs by how they feel across genres. For example, "chill" covers both lofi and ambient songs.
+- **Energy can be worth as much as mood.** A song whose energy is 0.5 away from the target loses 1 point. That stops a matching label from hiding a big mismatch in feel.
+- **Acoustic fit is a small nudge.** It mostly breaks ties between songs that are otherwise similar.
+
+I tested this against the common starting recipe (+2.0 genre, +1.0 mood, energy × 1.0). For a user who wants "pop / chill / energy 0.30", the starting recipe ranked _Gym Hero_ (intense, energy 0.93) second just because it is pop. The final recipe recommended _Spacewalk Thoughts_, _Library Rain_ and _Midnight Coding_ instead, which are actually calm songs.
+
+### Expected Biases
+
+- **Mood over-prioritization:** Mood is the largest single bonus, so moods with several songs dominate the top results. "chill" has 3 songs, while a "nostalgic" or "angry" listener has only one exact match. Great songs with a neighboring mood (for example, "relaxed" vs. "chill") get no credit.
+- **Exact string matching:** "indie pop" does not match "pop", and "relaxed" does not match "chill". The system has no idea which labels are related.
+- **Catalog imbalance:** Lofi has 3 songs and most genres have 1. Lofi and chill listeners get many good options, while fans of other genres get one match followed by songs that are only close in energy.
+- **Energy as the main signal:** Two songs with the same energy but very different sounds can score the same, because tempo, valence and danceability are ignored.
+- **Tie-breaking by CSV order:** Python's sort is stable, so songs with equal scores appear in the order they are listed in the file, not by any merit.
+
 ---
 
 ## Getting Started
