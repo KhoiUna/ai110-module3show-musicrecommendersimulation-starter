@@ -1,5 +1,11 @@
+import csv
 from typing import List, Dict, Tuple, Optional
 from dataclasses import dataclass
+
+# Column types for data/songs.csv; anything not listed stays a string.
+INT_FIELDS = ("id",)
+FLOAT_FIELDS = ("energy", "tempo_bpm", "valence",
+                "danceability", "acousticness")
 
 
 @dataclass
@@ -54,10 +60,38 @@ def load_songs(csv_path: str) -> List[Dict]:
     """
     Loads songs from a CSV file.
     Required by src/main.py
+
+    Returns one dict per row, keyed by the CSV header. Numeric columns are
+    converted (id -> int, audio features -> float) so they can be used in
+    scoring math; text columns are stripped of surrounding whitespace.
     """
-    # TODO: Implement CSV loading logic
     print(f"Loading songs from {csv_path}...")
-    return []
+    songs: List[Dict] = []
+
+    with open(csv_path, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            line_num = reader.line_num  # actual file line, for error messages
+            # DictReader stores fields beyond the header under the key None.
+            if None in row:
+                raise ValueError(
+                    f"{csv_path}, line {line_num}: more values than header columns")
+            # Skip whitespace-only / all-empty rows (e.g. ",,,,").
+            if not any((value or "").strip() for value in row.values()):
+                continue
+            song: Dict = {key.strip(): (value or "").strip()
+                          for key, value in row.items()}
+            try:
+                for field in INT_FIELDS:
+                    song[field] = int(song[field])
+                for field in FLOAT_FIELDS:
+                    song[field] = float(song[field])
+            except (KeyError, ValueError) as e:
+                raise ValueError(
+                    f"{csv_path}, line {line_num}: bad or missing value ({e})") from e
+            songs.append(song)
+    print(f"Loaded {len(songs)} songs.")
+    return songs
 
 
 def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
