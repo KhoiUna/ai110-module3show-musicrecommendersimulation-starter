@@ -7,6 +7,12 @@ INT_FIELDS = ("id",)
 FLOAT_FIELDS = ("energy", "tempo_bpm", "valence",
                 "danceability", "acousticness")
 
+# Algorithm Recipe weights (see README "Algorithm Recipe"). Max score = 5.5.
+MOOD_WEIGHT = 2.0      # exact mood match
+GENRE_WEIGHT = 1.0     # exact genre match
+ENERGY_WEIGHT = 2.0    # scaled by closeness: 1 - |song energy - target|
+ACOUSTIC_WEIGHT = 0.5  # scaled by acousticness (or its inverse)
+
 
 @dataclass
 class Song:
@@ -98,10 +104,49 @@ def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
     """
     Scores a single song against user preferences.
     Required by recommend_songs() and src/main.py
+
+    Judges one song in isolation using the Algorithm Recipe:
+      +2.0                       if mood matches favorite_mood
+      +1.0                       if genre matches favorite_genre
+      +2.0 * (1 - |energy diff|) energy closeness to target_energy
+      +0.5 * acousticness        if likes_acoustic, else 0.5 * (1 - acousticness)
+
+    Returns (score, reasons), with one reason per rule that added points.
     """
-    # TODO: Implement scoring logic using your Algorithm Recipe from Phase 2.
-    # Expected return format: (score, reasons)
-    return []
+    score = 0.0
+    reasons: List[str] = []
+
+    # Mood: exact label match (case/whitespace-insensitive).
+    if song["mood"].strip().lower() == user_prefs["favorite_mood"].strip().lower():
+        score += MOOD_WEIGHT
+        reasons.append(f"mood match: {song['mood']} (+{MOOD_WEIGHT:.2f})")
+
+    # Genre: exact label match (case/whitespace-insensitive).
+    if song["genre"].strip().lower() == user_prefs["favorite_genre"].strip().lower():
+        score += GENRE_WEIGHT
+        reasons.append(f"genre match: {song['genre']} (+{GENRE_WEIGHT:.2f})")
+
+    # Energy: closer to the target earns more; clamp so it never goes negative.
+    target = float(user_prefs["target_energy"])
+    energy_gap = abs(song["energy"] - target)
+    energy_points = ENERGY_WEIGHT * max(0.0, 1.0 - energy_gap)
+    score += energy_points
+    reasons.append(
+        f"energy {song['energy']:.2f} vs target {target:.2f} (+{energy_points:.2f})")
+
+    # Acoustic: reward acoustic songs for acoustic fans, electronic otherwise.
+    if user_prefs["likes_acoustic"]:
+        acoustic_points = ACOUSTIC_WEIGHT * song["acousticness"]
+        label = "acoustic"
+    else:
+        acoustic_points = ACOUSTIC_WEIGHT * (1.0 - song["acousticness"])
+        label = "non-acoustic"
+    if acoustic_points > 0:
+        score += acoustic_points
+        reasons.append(
+            f"{label} fit: acousticness {song['acousticness']:.2f} (+{acoustic_points:.2f})")
+
+    return score, reasons
 
 
 def recommend_songs(user_prefs: Dict, songs: List[Dict], k: int = 5) -> List[Tuple[Dict, float, str]]:
