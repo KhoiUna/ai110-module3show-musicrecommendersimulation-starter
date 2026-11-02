@@ -21,16 +21,22 @@ Prompts:
 
 ## 3. How the Model Works
 
-Explain your scoring approach in simple language.
+Think of the recommender as a judge at a talent show who looks at every song in the catalog, one at a time, and gives each one a score out of about 5.5 points. After every song has a score, the judge lines them up from highest to lowest and hands you the top five.
 
-Prompts:
+**What it knows about you.** You tell it four things: your favorite genre (like "lofi"), the mood you're in (like "chill"), how energetic you want the music to be on a scale from 0 (very calm) to 1 (very intense), and whether you like acoustic, natural-sounding music or prefer electronic sounds.
 
-- What features of each song are used (genre, energy, mood, etc.)
-- What user preferences are considered
-- How does the model turn those into a score
-- What changes did you make from the starter logic
+**What it looks at in each song.** Every song has a genre, a mood, an energy level and an "acousticness" level. The song's title and artist are only shown to you; they don't affect the score.
 
-Avoid code here. Pretend you are explaining the idea to a friend who does not program.
+**How a song earns points.**
+
+- **Mood match: 2 points.** If the song's mood is exactly the mood you asked for, it gets the biggest single bonus. Mood captures how a song _feels_, which matters most when you're picking music for a moment.
+- **Genre match: 1 point.** If the song's genre is your favorite, it gets a smaller bonus. Genre is a useful hint, but it's just a label. A calm ambient song can suit a lofi fan better than an intense song from the "right" genre.
+- **Energy closeness: up to 2 points.** This is about how close the song is to your energy level, not whether it is higher or lower. A song exactly at your level gets the full 2 points, and it loses points the further away it is. For example, if you want 0.40 and the song is 0.90, it only gets 1 point. This way a song with the right label but the wrong feel can't sneak to the top.
+- **Acoustic fit: up to half a point.** If you like acoustic music, more acoustic songs get a little extra. If you don't, more electronic songs do. This is a small nudge that mostly helps break ties.
+
+**Why it can explain itself.** Every time a song earns points, the system writes down why (for example, "mood match: chill (+2.00)"). Those notes are printed next to each recommendation, so you can always see exactly how a score was built.
+
+**What I changed from the starter idea.** The suggested starting point gave genre 2 points and mood 1 point. I flipped that and made energy count more. In this small catalog almost every song has its own genre, so a big genre bonus basically picks one song instead of describing a taste. When I tested someone who wanted "pop" but in a "chill" mood with low energy, the starter version recommended an intense workout song just because it was pop. With my weights, they got genuinely calm songs instead.
 
 ---
 
