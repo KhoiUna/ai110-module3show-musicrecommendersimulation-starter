@@ -170,3 +170,43 @@ def recommend_songs(user_prefs: Dict, songs: List[Dict], k: int = 5) -> List[Tup
 
     # Keep the top k and turn each reasons list into a readable explanation.
     return [(song, score, "; ".join(reasons)) for song, score, reasons in ranked[:k]]
+
+
+WIDTH = 64
+BAR_WIDTH = 20
+MAX_SCORE = MOOD_WEIGHT + GENRE_WEIGHT + ENERGY_WEIGHT + ACOUSTIC_WEIGHT
+
+
+def score_bar(score: float) -> str:
+    """Render a score as a fixed-width bar relative to the max possible score."""
+    filled = round(BAR_WIDTH * min(max(score / MAX_SCORE, 0.0), 1.0))
+    return "█" * filled + "░" * (BAR_WIDTH - filled)
+
+
+def print_profile(user_prefs: dict) -> None:
+    """Print the taste profile the recommendations are based on."""
+    print("=" * WIDTH)
+    print("  🎵  MUSIC RECOMMENDER")
+    print("=" * WIDTH)
+    print(f"  Genre: {user_prefs['favorite_genre']}  |  "
+          f"Mood: {user_prefs['favorite_mood']}  |  "
+          f"Energy: {user_prefs['target_energy']:.2f}  |  "
+          f"Acoustic: {'yes' if user_prefs['likes_acoustic'] else 'no'}")
+    print("=" * WIDTH)
+
+
+def print_recommendations(recommendations: list) -> None:
+    """Print each recommendation as a numbered card: title, score, reasons."""
+    if not recommendations:
+        print("\n  No recommendations found.\n")
+        return
+
+    print(f"\n  Top {len(recommendations)} recommendations\n")
+    for rank, (song, score, explanation) in enumerate(recommendations, start=1):
+        print(f"  {rank}. {song['title']}  —  {song['artist']}")
+        print(
+            f"     Score: {score:4.2f} / {MAX_SCORE:.1f}  {score_bar(score)}")
+        print("     Why:")
+        for reason in explanation.split("; "):
+            print(f"       • {reason}")
+        print("  " + "-" * (WIDTH - 2))
