@@ -111,10 +111,10 @@ I tested three profiles in `src/main.py` and checked whether each top 5 "felt" r
 
 ## 9. Personal Reflection
 
-A few sentences about your experience.
+**Biggest learning moment.** Removing the mood check. One line of code reshuffled two of my three profiles. I learned that the weights decide the results more than the data does. The size of the catalog matters too: with one rock song, "rock" barely means anything.
 
-Prompts:
+**How AI helped, and when I double-checked.** AI helped me write the scoring code, build test profiles, and spot biases like the energy gap. But I still had to check its work. After the mood experiment, the score bars still said "out of 5.5", even though mood points were gone. I also made sure every claim in this card matched the real program output, not just what sounded right.
 
-- What you learned about recommender systems
-- Something unexpected or interesting you discovered
-- How this changed the way you think about music recommendation apps
+**What surprised me.** Four simple rules and some addition already feel like real recommendations. The chill lofi list looks like something a real app would make. But it's just label matching. It feels smart because it shows its reasons, not because it understands music.
+
+**What I'd try next.** A bigger catalog, partial credit for close labels (like "focused" and "chill"), and a rule that keeps the top 5 from all being the same type of song.
